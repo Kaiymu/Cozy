@@ -1,0 +1,109 @@
+{
+    "name": "MainControl",
+    "maps": [
+        {
+            "name": "CameraControls",
+            "id": "2458e38a-d6cc-440a-8cd8-32673412b235",
+            "actions": [
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "97595756-56ab-4183-8d5c-8a8eeee4948b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LookAt",
+                    "type": "Value",
+                    "id": "27088d56-8bda-460b-a608-98c629fc11c2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "1995ef80-5dd6-47f2-ac7d-1054ec7fb9ec",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "fa753311-09df-4c1b-bc6a-6cf3b4b16fad",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "07a3102d-1464-43ca-9870-75e1f9b7113b",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "4c9633b6-5a97-4bd3-ae4e-0f1375d3797a",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "Invert",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "d6f6a17c-36cb-4bc3-b9c1-75654dd75dcb",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "Invert",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2172b01a-b662-4f92-a27d-9334ec111a4d",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookAt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc6a75ba-bd37-4b33-8958-b6aa6e604530",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookAt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
