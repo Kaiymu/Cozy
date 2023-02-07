@@ -102,7 +102,7 @@ public class FreeCameraMovement : MonoBehaviour
         this.transform.Translate(directionForward * Time.deltaTime * _moveSpeed);
     }
 
-    // TODO peut-être faire un diff entre current mousPos & newPos. 
+    // TODO peut-?tre faire un diff entre current mousPos & newPos. 
     private void LookAtMouse()
     {
         _mousePos.x = MathHelper.Map(0, Screen.width, -1, 1, _lookAt.x);

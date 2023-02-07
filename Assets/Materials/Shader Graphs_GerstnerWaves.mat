@@ -126,7 +126,7 @@ Material:
     - Vector1_ce088e40d72b43c79dbf3cd15bbf02d1: 0.5
     - Vector1_d047e90faf324ae5990711693599555b: -0.14
     - Vector1_d1e80ae8b8c84c6f9326a60a63baec3d: 0.5
-    - Vector1_e1757747c878454199f9aab30c9378de: 0.3
+    - Vector1_e1757747c878454199f9aab30c9378de: 0.5
     - Vector1_e37b232bb65a4234a20ce81aad16f8de: 62.92
     - Vector1_ece06494555e4843962f6e2dedbc7b32: 15
     - Wavelength1: 10
@@ -204,11 +204,12 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_40932f3666e24a63b4526a95eb5e25a8: {r: 0.22976834, g: 0.9339623, b: 0.21586865,
+    - Color_40932f3666e24a63b4526a95eb5e25a8: {r: 0, g: 0.024019608, b: 0.053431373,
         a: 1}
-    - Color_7c32988447e44864b24f200a7e212ac0: {r: 0.9732262, g: 0.990566, b: 0.3224012,
-        a: 0}
-    - Color_b42c24a8dd3541eeadcbc94ec7fe3078: {r: 0, g: 1, b: 0.9898968, a: 1}
+    - Color_7c32988447e44864b24f200a7e212ac0: {r: 0.6498073, g: 0.23193812, b: 0.033716418,
+        a: 1}
+    - Color_b42c24a8dd3541eeadcbc94ec7fe3078: {r: 0.31738347, g: 0.9150943, b: 0.038848326,
+        a: 1}
     - Direction1: {r: 1, g: -1, b: 0, a: 0}
     - Direction2: {r: -1, g: 1, b: 0, a: 0}
     - Direction3: {r: -1, g: -1, b: 0, a: 0}
