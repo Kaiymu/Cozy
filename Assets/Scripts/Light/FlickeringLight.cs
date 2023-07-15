@@ -7,6 +7,8 @@ namespace Gameplay
 {
     public class FlickeringLight : MonoBehaviour
     {
+        [SerializeField]
+        private Light _light;
 
         [SerializeField]
         private Vector2 _rangeThreshold;
@@ -14,26 +16,25 @@ namespace Gameplay
         [SerializeField]
         private Vector2 _valueThreshold;
 
-        private Light _light;
+        [SerializeField]
+        private float _speed;
 
         private float _timeValue = 0f;
 
-        private void Awake()
-        {
-            _light = GetComponentInChildren<Light>();
-        }
+        private float _randomValue;
 
         private void Update()
         {
             _timeValue += Time.deltaTime;
-            var threshold = Random.Range(_rangeThreshold.x, _rangeThreshold.y);
+            float threshold = Random.Range(_rangeThreshold.x, _rangeThreshold.y);
 
             if (_timeValue > threshold) {
                 _timeValue = 0f;
-                _light.intensity = Random.Range(_valueThreshold.x, _valueThreshold.y);
+                _randomValue = Random.Range(_valueThreshold.x, _valueThreshold.y); ;
             }
-        }
 
+            _light.intensity = Mathf.Lerp(_light.intensity, _randomValue, Time.deltaTime * _speed);
+        }
 
     }
 }

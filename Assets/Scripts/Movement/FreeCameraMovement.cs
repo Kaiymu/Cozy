@@ -10,6 +10,8 @@ public class FreeCameraMovement : MonoBehaviour
     [Header("Camera movement")]
     [SerializeField]
     private float _moveSpeed;
+    [SerializeField]
+    private float _jumpSpeed;
 
     [Header("Camera rotation")]
     [SerializeField]
@@ -29,10 +31,11 @@ public class FreeCameraMovement : MonoBehaviour
 
     private Vector3 _direction;
     private Vector3 _lookAt;
+    private float _jump;
 
     private MainControl _mainControl;
 
-    private Vector2 _mousePos;
+    private Vector3 _startingMousePos;
 
     private void Awake()
     {
@@ -52,6 +55,14 @@ public class FreeCameraMovement : MonoBehaviour
         _mainControl.CameraControls.LookAt.performed += LookAt;
         _mainControl.CameraControls.LookAt.canceled += LookAt;
 
+        _mainControl.CameraControls.Jump.started += Jump;
+        _mainControl.CameraControls.Jump.performed += Jump;
+        _mainControl.CameraControls.Jump.canceled += Jump;
+
+        _mainControl.CameraControls.Click.started += Click;
+        _mainControl.CameraControls.Click.performed += Click;
+        _mainControl.CameraControls.Click.canceled += Click;
+
         _mainControl.Enable();
     }
 
@@ -64,6 +75,14 @@ public class FreeCameraMovement : MonoBehaviour
         _mainControl.CameraControls.LookAt.started -= LookAt;
         _mainControl.CameraControls.LookAt.performed -= LookAt;
         _mainControl.CameraControls.LookAt.canceled -= LookAt;
+
+        _mainControl.CameraControls.Jump.started -= Jump;
+        _mainControl.CameraControls.Jump.performed -= Jump;
+        _mainControl.CameraControls.Jump.canceled -= Jump;
+
+        _mainControl.CameraControls.Click.started -= Click;
+        _mainControl.CameraControls.Click.performed -= Click;
+        _mainControl.CameraControls.Click.canceled -= Click;
     }
 
     // Add spacebar to "jump" :).
@@ -91,32 +110,79 @@ public class FreeCameraMovement : MonoBehaviour
             _lookAt = Vector2.zero;
         }
     }
+
+    private void Jump(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started || context.phase == InputActionPhase.Performed)
+        {
+            _jump = context.ReadValue<float>();
+        }
+        else
+        {
+            _jump = 0;
+        }
+    }
+
     
-    // Reactif :D.
+    private void Click(InputAction.CallbackContext context)
+    {
+        // Specific to mouse input, but should handle joystick
+        if (context.phase == InputActionPhase.Started)
+        {
+            _startingMousePos = Mouse.current.position.ReadValue();
+        }
+        else if(context.phase == InputActionPhase.Canceled)
+        {
+            _startingMousePos = Vector3.zero;
+        }
+    }
 
     private void Update()
     {
         LookAtMouse();
-
-        Vector3 directionForward = new Vector3(1 * _direction.x, 0f, 1 * _direction.y);
-        this.transform.Translate(directionForward * Time.deltaTime * _moveSpeed);
     }
 
-    // TODO peut-?tre faire un diff entre current mousPos & newPos. 
+    private void FixedUpdate()
+    {
+        float jump = _jump * _jumpSpeed * Time.deltaTime;
+
+        Vector3 directionForward = new Vector3(1 * _direction.x, jump, 1 * _direction.y);
+        transform.Translate(directionForward * Time.deltaTime * _moveSpeed);
+    }
+
+    // TOdO gérer la différence 
     private void LookAtMouse()
     {
-        _mousePos.x = MathHelper.Map(0, Screen.width, -1, 1, _lookAt.x);
-        // TODO have a way to invert that.
-        _mousePos.y = MathHelper.Map(0, Screen.height, -1, 1, _lookAt.y) * -1;
-
-        if (Mathf.Abs(_mousePos.x) < _cameraDeadZone.x && Mathf.Abs(_mousePos.y) < _cameraDeadZone.y)
+        if (_startingMousePos == Vector3.zero)
             return;
 
-        float curveX = _rotationCurveX.Evaluate(Mathf.Abs(_mousePos.x))* Mathf.Sign(_mousePos.x);
-        float curveY = _rotationCurveX.Evaluate(Mathf.Abs(_mousePos.y)) * Mathf.Sign(_mousePos.y);
+        // TODO faire 
+        Vector3 mouseDirection = _lookAt - _startingMousePos;
+        Vector2 movement = Vector2.zero;
+
+        // We calculate if a deadzone is crossed, to move or not the camera
+        if (Mathf.Abs(mouseDirection.x) > _cameraDeadZone.x)
+        {
+            movement.x = mouseDirection.x;
+        }
+
+        if (Mathf.Abs(mouseDirection.y) > _cameraDeadZone.y)
+        {
+            movement.y = mouseDirection.y;
+        }
+
+        Vector3 mappedPosition = new Vector3();      
+        mappedPosition.x = MathHelper.Map(0, Screen.width, 0, 1, movement.x);
+        // TODO have a way to invert that via menu
+        mappedPosition.y = MathHelper.Map(0, Screen.height, 0, 1, movement.y) * -1;
+
+        float curveX = _rotationCurveX.Evaluate(Mathf.Abs(mappedPosition.x)) * Mathf.Sign(mappedPosition.x);
+        float curveY = _rotationCurveY.Evaluate(Mathf.Abs(mappedPosition.y)) * Mathf.Sign(mappedPosition.y);
 
         _yaw += _rotateSpeed * curveX * Time.deltaTime;
         _pitch += _rotateSpeed * curveY * Time.deltaTime;
+        _pitch = Mathf.Clamp(_pitch, -90, 90);
+
         transform.eulerAngles = new Vector3(_pitch, _yaw, 0f);
     }
 }
